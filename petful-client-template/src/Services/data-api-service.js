@@ -48,18 +48,19 @@ const DataApiService={
                     : undefined
             )
     },
-    deletePet(){
+    deletePet(type){
         return fetch(`${config.API_ENDPOINT}/pets`, {
             method: 'DELETE',
             headers: {
                 'content-type': 'application/json',
             },
+            body: JSON.stringify({type})
         })
 
             .then(res =>
                 (!res.ok)
                     ? res.json().then(e => Promise.reject(e))
-                    : res.json()
+                    : undefined
             )
     }
         

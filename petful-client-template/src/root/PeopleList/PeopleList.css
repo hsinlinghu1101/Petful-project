@@ -1,5 +1,4 @@
 #People-List{
-  float: right;
   margin-right: 30%;
 }
  #People-List > h2 {
@@ -31,6 +30,13 @@ button :hover {
 .join{
   display: block;
   margin-left: 0;
+}
+
+.adopt{
+  font-size: 1rem;
+  text-decoration: none;
+  margin: 1rem;
+  padding: .5rem .75rem;
 }
 form{
   padding: .7rem;

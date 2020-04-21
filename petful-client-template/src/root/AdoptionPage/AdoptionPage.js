@@ -5,11 +5,13 @@ import DataApiService from '../../Services/data-api-service';
 import './AdoptionPage.css';
 
 export default class AdoptionPage extends React.Component{
+   
   constructor(props) {
     super(props);
     this.state={
+      dogs:[],
+      cats:[],
       peopleData:'',
-      petData:'',
       error:null,
       date: null
     } 
@@ -17,8 +19,9 @@ export default class AdoptionPage extends React.Component{
 
   componentDidMount() {   
     DataApiService.getPet()
-      .then(petData=> this.setState({
-            petData
+      .then(res=> this.setState({
+            dogs: res.dogs[0],
+            cats: res.cats[0]
           })) 
       .catch(res=> this.setState({
             error:JSON.stringify(res.error)
@@ -34,11 +37,6 @@ export default class AdoptionPage extends React.Component{
       .catch(res=> this.setState({
           error:JSON.stringify(res.error)
       }))
-  
-    this.timerId= setInterval(
-      ()=>this.tick(), 
-      5000
-    )
      
   }
  
@@ -46,18 +44,7 @@ export default class AdoptionPage extends React.Component{
      clearInterval(this.timerId)
   }
 
-  tick(){
-    this.setState({
-      date: new Date()
-    })
-    DataApiService.deletePeople()
-    DataApiService.getPeople()
-      .then(peopleData=> {
-        this.setState({
-          peopleData
-      })
-      })    
-  }
+ 
 
   createDataSuccess = (data) => {
     this.setState({
@@ -66,12 +53,13 @@ export default class AdoptionPage extends React.Component{
   }
    
   render(){
-    const { error }  = this.state;
+    const { error, dogs, cats }  = this.state;
     return (     
-      <div id='Adoption-Page'>  
+      <div id='Adoption-Page'> 
         {error && <p>{error}</p>}
-        <Pet pet={this.state.petData}/>
-        <PeopleList createDataSuccess={this.createDataSuccess} people={this.state.peopleData}/>
+        <Pet pet={dogs}/>
+        <Pet pet={cats}/>
+        <PeopleList createDataSuccess={this.createDataSuccess}  people={this.state.peopleData}/>
       </div>
     )
   }

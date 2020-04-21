@@ -1,21 +1,24 @@
-#Pet {
+.pet {
   display: inline-block;
   padding: 1rem;
   border: .3rem solid darkcyan;
   border-radius: .25rem;
+  margin-right: 20px;
 }
 
-#Pet > h3 {
+.pet > h3 {
   font-size: 2rem;
   margin: .25rem 0;
 }
 
-#Pet > p {
+.pet > p {
   font-size: 1rem;
   margin: .25rem 0;
 }
 
-#Pet > img {
-  max-width: 60%;
+.pet > img {
+  max-height: 200px;
 }
+
+
 

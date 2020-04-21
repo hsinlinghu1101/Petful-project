@@ -3,6 +3,9 @@ import DataApiService from '../../Services/data-api-service'
 import './PeopleList.css'
 
 export default class PeopleList extends Component {
+    static defaultProps ={
+     adoptSuccess:()=>{ }
+    }
     state={
         clicked: false,
         newPerson:'',
@@ -39,14 +42,51 @@ export default class PeopleList extends Component {
                 confirm:false
             })
         })
+
+        this.timerId= setInterval(
+            ()=>this.tick(), 
+            5000
+          )
         
     }
 
-    sendConfirmation=(event)=>{
+    tick(){
+        this.setState({
+          date: new Date()
+        })
+       DataApiService.deletePeople()
+        DataApiService.getPeople()
+          .then(peopleData=> {
+            this.setState({
+              peopleData
+          })
+          })    
+      }
+
+    catConfirmation=(event)=>{
         event.preventDefault();
         this.setState({
             confirm:true
         })
+        DataApiService.deletePeople()
+        DataApiService.deletePet('cats')
+    }
+    dogConfirmation=(event)=>{
+        event.preventDefault();
+        this.setState({
+            confirm:true
+        })
+        DataApiService.deletePeople()
+        DataApiService.deletePet('dogs')
+    }
+    bothConfirmation=(event)=>{
+        event.preventDefault();
+        this.setState({
+            confirm:true
+        })
+        DataApiService.deletePeople()
+        DataApiService.deletePet('cats')
+        DataApiService.deletePet('dogs')
     }
 
     handleClose=(event)=>{
@@ -65,7 +105,9 @@ export default class PeopleList extends Component {
         return (
         <div  key={index}>
         <div className='People-List first'>{index + 1}. {person}</div>
-        <button type='button' onClick={this.sendConfirmation}>Adopt</button>
+        <button type='button' className='adopt' onClick={this.catConfirmation}>Adopt Cat</button>
+        <button type='button' className='adopt' onClick={this.dogConfirmation}>Adopt Dog</button>
+        <button type='button' className='adopt' onClick={this.bothConfirmation}>Adopt Both</button>
         {this.state.confirm && 
         <div>
             <h2>Congratulation!</h2><button type='button' onClick={this.handleClose}>close</button>

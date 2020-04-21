@@ -8,16 +8,17 @@
 #Landing-Page-description {
   max-width: 80%;
   margin: 2rem 0;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
 }
 
 #Landing-Page-puppies {
   max-width: 80%;
+  border-radius: 50%;
   height: auto;
 }
 
 #Landing-Page-button {
-  font-size: 1.9rem;
+  font-size: 1.5rem;
   text-decoration: none;
   margin: 2rem;
   padding: .5rem .75rem;
