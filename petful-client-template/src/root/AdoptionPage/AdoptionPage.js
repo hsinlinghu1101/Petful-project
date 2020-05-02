@@ -18,7 +18,7 @@ export default class AdoptionPage extends React.Component{
   }
 
   componentDidMount() {   
-    DataApiService.getPet()
+     DataApiService.getPet()
       .then(res=> this.setState({
             dogs: res.dogs[0],
             cats: res.cats[0]
@@ -32,24 +32,17 @@ export default class AdoptionPage extends React.Component{
         this.setState({
           peopleData
       })
-      
-      }) 
+    }) 
       .catch(res=> this.setState({
           error:JSON.stringify(res.error)
-      }))
-     
+      }))  
   }
  
-  componentWillUnmount(){
-     clearInterval(this.timerId)
-  }
-
- 
-
   createDataSuccess = (data) => {
     this.setState({
       peopleData: data
     })
+   
   }
    
   render(){
@@ -64,3 +57,31 @@ export default class AdoptionPage extends React.Component{
     )
   }
 };
+
+/* this.timeout = setInterval(() => {
+      let randomNumber = Math.floor(Math.random() * 2) + 1
+      
+      if(randomNumber === 1) {
+          DataApiService.deletePet('dog')
+          .then( res => {
+              DataApiService.getPets()
+              .then(res => this.setState({ dogs: res.dogs[0] }))
+              .catch(res => this.setState({ error: res.error }))
+              DataApiService.getPeople()
+              .then(res => this.setState({ people: res }))
+              .catch(res => this.setState({ error: res.error }))
+          })
+          .catch(res => this.setState({ error: res.error }))
+      } else {
+        DataApiService.deletePet('cat')
+          .then( res => {
+              DataApiService.getPets()
+              .then(res => this.setState({ cats: res.cats[0] }))
+              .catch(res => this.setState({ error: res.error }))
+              DataApiService.getPeople()
+              .then(res => this.setState({ people: res }))
+              .catch(res => this.setState({ error: res.error }))
+          })
+          .catch(res => this.setState({ error: res.error }))
+      }
+    }, 5000);*/

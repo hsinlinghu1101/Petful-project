@@ -43,57 +43,46 @@ export default class PeopleList extends Component {
             })
         })
 
-        this.timerId= setInterval(
-            ()=>this.tick(), 
-            5000
-          )
+       
+        }
+    
+
+       catConfirmation=()=>{
         
-    }
-
-    tick(){
-        this.setState({
-          date: new Date()
-        })
-       DataApiService.deletePeople()
-        DataApiService.getPeople()
-          .then(peopleData=> {
-            this.setState({
-              peopleData
-          })
-          })    
-      }
-
-    catConfirmation=(event)=>{
-        event.preventDefault();
         this.setState({
             confirm:true
         })
-        DataApiService.deletePeople()
-        DataApiService.deletePet('cats')
+       DataApiService.deletePet('cats') 
+         
     }
-    dogConfirmation=(event)=>{
-        event.preventDefault();
+    dogConfirmation=()=>{
+       
         this.setState({
             confirm:true
         })
-        DataApiService.deletePeople()
         DataApiService.deletePet('dogs')
+       
     }
-    bothConfirmation=(event)=>{
-        event.preventDefault();
+    bothConfirmation=()=>{
+       
         this.setState({
             confirm:true
         })
-        DataApiService.deletePeople()
-        DataApiService.deletePet('cats')
+       
+         DataApiService.deletePet('cats')
         DataApiService.deletePet('dogs')
-    }
+     
+     }
+    
 
     handleClose=(event)=>{
         event.preventDefault();
         this.setState({
             confirm:false
         })
+        DataApiService.deletePeople()
+        window.location.reload(false);
+
     }
 
     generatePeopleJSX(person, index) {
@@ -105,9 +94,9 @@ export default class PeopleList extends Component {
         return (
         <div  key={index}>
         <div className='People-List first'>{index + 1}. {person}</div>
-        <button type='button' className='adopt' onClick={this.catConfirmation}>Adopt Cat</button>
-        <button type='button' className='adopt' onClick={this.dogConfirmation}>Adopt Dog</button>
-        <button type='button' className='adopt' onClick={this.bothConfirmation}>Adopt Both</button>
+        <button type='button' className='adopt' onClick={this.catConfirmation}  disabled={this.state.confirm}>Adopt Cat</button>
+        <button type='button' className='adopt' onClick={this.dogConfirmation}  disabled={this.state.confirm}>Adopt Dog</button>
+        <button type='button' className='adopt' onClick={this.bothConfirmation}  disabled={this.state.confirm}>Adopt Both</button>
         {this.state.confirm && 
         <div>
             <h2>Congratulation!</h2><button type='button' onClick={this.handleClose}>close</button>
