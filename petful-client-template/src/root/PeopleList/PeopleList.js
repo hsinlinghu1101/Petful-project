@@ -52,57 +52,82 @@ export default class PeopleList extends Component {
         this.setState({
             confirm:true
         })
-       DataApiService.deletePet('cats') 
-         
+       DataApiService.deletePet('cats')     
     }
-    dogConfirmation=()=>{
-       
+    dogConfirmation=()=>{ 
         this.setState({
             confirm:true
         })
         DataApiService.deletePet('dogs')
        
     }
-    bothConfirmation=()=>{
-       
+    bothConfirmation=()=>{       
         this.setState({
             confirm:true
-        })
-       
-         DataApiService.deletePet('cats')
+        })       
+        DataApiService.deletePet('cats')
         DataApiService.deletePet('dogs')
      
      }
     
 
-    handleClose=(event)=>{
+      handleClose = (event)=>{
         event.preventDefault();
-        this.setState({
-            confirm:false
-        })
-        DataApiService.deletePeople()
         window.location.reload(false);
-
     }
 
     generatePeopleJSX(person, index) {
         console.log(person)
+        console.log()
         if(index > 4 ){
         return;
         }
-        else if (index === 0  ) {
+        else if (index === 0 ) {
+             if (this.props.dogs &&  this.props.cats ) {
+                return (
+                <div  key={index}>
+                <div className='People-List first'>{index + 1}. {person}</div>
+                <button type='button' className='adopt' onClick={this.catConfirmation}  disabled={this.state.confirm}>Adopt Cat</button>
+                <button type='button' className='adopt' onClick={this.dogConfirmation}  disabled={this.state.confirm}>Adopt Dog</button>
+                <button type='button' className='adopt' onClick={this.bothConfirmation}  disabled={this.state.confirm}>Adopt Both</button>
+                {this.state.confirm && 
+                <div>
+                    <h2>Congratulation!</h2><button type='button' onClick={this.handleClose}>close</button>
+                </div>}
+                </div>)
+                }
+            else if(this.props.dogs){
+            return (
+            <div  key={index}>
+            <div className='People-List first'>{index + 1}. {person}</div>
+            <button type='button' className='adopt' onClick={this.dogConfirmation}  disabled={this.state.confirm}>Adopt Dog</button>
+            {this.state.confirm && 
+            <div>
+                <h2>Congratulation!</h2><button type='button' onClick={this.handleClose}>close</button>
+            </div>}
+            </div>)
+            }
+        
+            else if (this.props.cats ) {
+                return (
+                <div  key={index}>
+                <div className='People-List first'>{index + 1}. {person}</div>
+                <button type='button' className='adopt' onClick={this.catConfirmation}  disabled={this.state.confirm}>Adopt Cat</button>
+                {this.state.confirm && 
+                <div>
+                    <h2>Congratulation!</h2><button type='button' onClick={this.handleClose}>close</button>
+                </div>}
+                </div>)
+                }
+        else{
         return (
         <div  key={index}>
         <div className='People-List first'>{index + 1}. {person}</div>
-        <button type='button' className='adopt' onClick={this.catConfirmation}  disabled={this.state.confirm}>Adopt Cat</button>
-        <button type='button' className='adopt' onClick={this.dogConfirmation}  disabled={this.state.confirm}>Adopt Dog</button>
-        <button type='button' className='adopt' onClick={this.bothConfirmation}  disabled={this.state.confirm}>Adopt Both</button>
-        {this.state.confirm && 
-        <div>
-            <h2>Congratulation!</h2><button type='button' onClick={this.handleClose}>close</button>
-        </div>}
         </div>)
-        }else{
+        }
+        }
+        
+        else{
             return (
                 <div key={index} className='People-List'>{index + 1}. {person}</div>
             )
@@ -114,7 +139,7 @@ export default class PeopleList extends Component {
         
         return (
             <div id='People-List'>
-                <h2>Current Adopter List</h2>
+                <h2 className='list'>Current Adopter List</h2>
                 
                 {Object.values(this.props.people).map((x, index) => this.generatePeopleJSX(x, index))}
                 

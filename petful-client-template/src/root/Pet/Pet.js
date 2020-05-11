@@ -4,6 +4,9 @@ import './Pet.css'
 
 export default class Pet extends Component {
     render() {
+        if(this.props.pet === undefined){
+            return <div className='pet'><h3>Not available</h3></div>
+        }
         return (  
             <div className='pet'>
                 <h3>Name: {this.props.pet.name}</h3>

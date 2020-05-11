@@ -7,7 +7,7 @@
 }
 
 .pet > h3 {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin: .25rem 0;
 }
 
@@ -17,7 +17,17 @@
 }
 
 .pet > img {
-  max-height: 200px;
+  max-width: 210px;
+}
+
+@media screen and (min-width: 481px){
+  .pet > img {
+    max-height: 200px;
+  }
+  .pet > h3 {
+    font-size: 2rem;
+    margin: .25rem 0;
+  }
 }
 
 

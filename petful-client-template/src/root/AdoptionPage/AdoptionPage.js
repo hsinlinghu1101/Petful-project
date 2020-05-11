@@ -35,24 +35,63 @@ export default class AdoptionPage extends React.Component{
     }) 
       .catch(res=> this.setState({
           error:JSON.stringify(res.error)
-      }))  
+      })) 
+
+    
   }
  
   createDataSuccess = (data) => {
     this.setState({
       peopleData: data
     })
-   
-  }
-   
+      
+    setInterval(() => 
+      this.tick()
+  , 5000);
+}
+
+
+tick(){
+  
+  let randomNumber = Math.floor(Math.random() * 2) + 1
+    console.log(randomNumber)
+    if(randomNumber === 1) {
+      DataApiService.deletePet('dog')
+      .then( res => {
+          DataApiService.getPet()
+          .then(res => this.setState({ dogs: res.dogs[0] }))
+          .catch(res => this.setState({ error: res.error }))
+          DataApiService.getPeople()
+          .then(res => this.setState({ peopleData: res }))
+          .catch(res => this.setState({ error: res.error }))
+      })   
+    } else {
+      DataApiService.deletePet('cat')
+          .then( res => {
+              DataApiService.getPet()
+              .then(res => this.setState({ cats: res.cats[0] }))
+              .catch(res => this.setState({ error: res.error }))
+              DataApiService.getPeople()
+              .then(res => this.setState({ peopleData: res }))
+              .catch(res => this.setState({ error: res.error }))
+          })  
+    }
+}
   render(){
-    const { error, dogs, cats }  = this.state;
+    const { error, dogs, cats, peopleData }  = this.state;
+   
     return (     
       <div id='Adoption-Page'> 
         {error && <p>{error}</p>}
+        <div className='pets'>
+        <h1>Dogs</h1>
         <Pet pet={dogs}/>
+        </div>
+        <div className='pets'>
+        <h1>Cats</h1>
         <Pet pet={cats}/>
-        <PeopleList createDataSuccess={this.createDataSuccess}  people={this.state.peopleData}/>
+        </div>
+        <PeopleList createDataSuccess={this.createDataSuccess}  people={peopleData} dogs={dogs} cats={cats}/>
       </div>
     )
   }

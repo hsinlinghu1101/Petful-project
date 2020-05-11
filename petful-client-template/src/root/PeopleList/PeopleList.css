@@ -2,11 +2,11 @@
   margin-right: 30%;
 }
  #People-List > h2 {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .People-List {
-  font-size: 1.6rem;
+  font-size: 1.3rem;
 }
 
 .first {
@@ -14,10 +14,10 @@
 }
 
 button {
-  font-size: 1.3rem;
+  font-size: 1rem;
   text-decoration: none;
-  margin: 2rem;
-  padding: .5rem .75rem;
+  margin: 0.5rem;
+  padding: .3rem .5rem;
   background-color: darkcyan;
   color: white;
   border-radius: .5rem;
@@ -35,8 +35,8 @@ button :hover {
 .adopt{
   font-size: 1rem;
   text-decoration: none;
-  margin: 1rem;
-  padding: .5rem .75rem;
+  margin: .5rem;
+  padding: .3rem .5rem;
 }
 form{
   padding: .7rem;
@@ -46,4 +46,58 @@ form{
 
 label{
   font-size: 1.3rem ;
+}
+
+@media screen and (min-width: 481px) {
+  #People-List{
+    margin-right: 30%;
+  }
+   #People-List > h2 {
+    font-size: 2rem;
+  }
+  
+  .People-List {
+    font-size: 1.6rem;
+  }
+  
+  .first {
+    display: inline-block;
+  }
+  
+  button {
+    font-size: 1.3rem;
+    text-decoration: none;
+    margin: 2rem;
+    padding: .5rem .75rem;
+    background-color: darkcyan;
+    color: white;
+    border-radius: .5rem;
+  }
+  button :hover {
+    cursor: pointer;
+    color: lightgray;
+  }
+  
+  .join{
+    display: block;
+    margin-left: 0;
+  }
+  
+  .adopt{
+    font-size: 1rem;
+    text-decoration: none;
+    margin: 1rem;
+    padding: .5rem .75rem;
+  }
+  form{
+    padding: .7rem;
+    border: .3rem solid darkcyan;
+    border-radius: .25rem;
+  }
+  
+  label{
+    font-size: 1.3rem ;
+  }
+  
+
 }
