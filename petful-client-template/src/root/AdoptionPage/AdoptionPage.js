@@ -11,7 +11,7 @@ export default class AdoptionPage extends React.Component{
     this.state={
       dogs:[],
       cats:[],
-      peopleData:'',
+      peopleData:[],
       error:null,
       date: null
     } 
@@ -32,34 +32,47 @@ export default class AdoptionPage extends React.Component{
         this.setState({
           peopleData
       })
+      
     }) 
       .catch(res=> this.setState({
           error:JSON.stringify(res.error)
       })) 
 
-    
+      
   }
  
   createDataSuccess = (data) => {
+    console.log(123)
     this.setState({
       peopleData: data
     })
-      
-    setInterval(() => 
+    if(this.state.peopleData.length) {
+      setInterval(() => 
       this.tick()
-  , 5000);
+     , 5000);
+    }else{
+      clearInterval( setInterval(() => 
+      this.tick()
+     , 5000));
+    }
+    
 }
 
 
+
 tick(){
-  
+  console.log(8)
   let randomNumber = Math.floor(Math.random() * 2) + 1
     console.log(randomNumber)
     if(randomNumber === 1) {
       DataApiService.deletePet('dog')
       .then( res => {
           DataApiService.getPet()
-          .then(res => this.setState({ dogs: res.dogs[0] }))
+          .then(resp => 
+            
+            console.log(this.setState({ dogs: resp.dogs[0] }))
+            )
+          
           .catch(res => this.setState({ error: res.error }))
           DataApiService.getPeople()
           .then(res => this.setState({ peopleData: res }))
@@ -69,7 +82,10 @@ tick(){
       DataApiService.deletePet('cat')
           .then( res => {
               DataApiService.getPet()
-              .then(res => this.setState({ cats: res.cats[0] }))
+              .then(resp => 
+                
+                console.log(this.setState({ cats: resp.cats[0] })))
+                
               .catch(res => this.setState({ error: res.error }))
               DataApiService.getPeople()
               .then(res => this.setState({ peopleData: res }))

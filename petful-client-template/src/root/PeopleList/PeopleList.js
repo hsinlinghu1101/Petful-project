@@ -5,6 +5,7 @@ import './PeopleList.css'
 export default class PeopleList extends Component {
     static defaultProps ={
      adoptSuccess:()=>{ }
+     
     }
     state={
         clicked: false,
@@ -32,10 +33,11 @@ export default class PeopleList extends Component {
         event.preventDefault();
         const {newPerson}= event.target
         DataApiService.postPeople({
-            newPerson: newPerson.value
+            newPerson: newPerson.value,
         })
         .then(data =>{
             newPerson.value='';
+            console.log(555)
             this.props.createDataSuccess(data)
             this.setState({
                 clicked: false,
