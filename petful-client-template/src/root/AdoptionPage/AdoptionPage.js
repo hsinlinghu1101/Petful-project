@@ -60,18 +60,17 @@ export default class AdoptionPage extends React.Component{
 
 
 
-tick(){
-  console.log(8)
-  let randomNumber = Math.floor(Math.random() * 2) + 1
+ tick(){    
+    let randomNumber = Math.floor(Math.random() * 2) + 1
     console.log(randomNumber)
     if(randomNumber === 1) {
-      DataApiService.deletePet('dog')
-      .then( res => {
+    DataApiService.deletePet('dogs')
+     .then( res => {
+        console.log(res)
           DataApiService.getPet()
-          .then(resp => 
-            
-            console.log(this.setState({ dogs: resp.dogs[0] }))
-            )
+          .then(resp => {
+            this.setState({ dogs: resp.dogs[0] })
+            })
           
           .catch(res => this.setState({ error: res.error }))
           DataApiService.getPeople()
@@ -79,13 +78,12 @@ tick(){
           .catch(res => this.setState({ error: res.error }))
       })   
     } else {
-      DataApiService.deletePet('cat')
-          .then( res => {
+      DataApiService.deletePet('cats')
+         .then( res => {
+            console.log(res)
               DataApiService.getPet()
-              .then(resp => 
-                
-                console.log(this.setState({ cats: resp.cats[0] })))
-                
+              .then(resp =>{ 
+                this.setState({ cats: resp.cats[0] })})
               .catch(res => this.setState({ error: res.error }))
               DataApiService.getPeople()
               .then(res => this.setState({ peopleData: res }))
