@@ -10,6 +10,7 @@ export default class PeopleList extends Component {
     state={
         clicked: false,
         newPerson:'',
+        name:'',
         confirm: false
     }
 
@@ -32,6 +33,9 @@ export default class PeopleList extends Component {
     addPerson=(event)=>{
         event.preventDefault();
         const {newPerson}= event.target
+        this.setState({
+            name:newPerson.value
+        })
         DataApiService.postPeople({
             newPerson: newPerson.value,
         })
@@ -69,7 +73,6 @@ export default class PeopleList extends Component {
         })       
         DataApiService.deletePet('cats')
         DataApiService.deletePet('dogs')
-     
      }
     
 
@@ -84,7 +87,8 @@ export default class PeopleList extends Component {
         if(index > 4 ){
         return;
         }
-        else if (index === 0 ) {
+        else if (index === 0 && person === this.state.name ) {
+            this.props.stopFive()
              if (this.props.dogs &&  this.props.cats ) {
                 return (
                 <div  key={index}>

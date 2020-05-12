@@ -13,7 +13,16 @@ export default class AdoptionPage extends React.Component{
       cats:[],
       peopleData:[],
       error:null,
-      date: null
+      adopters: [
+        'Mario Speedwagon',
+        'Petey Cruiser',
+        'Anna Sthesia',
+        'Paul Molive',
+        'Anna Mull',
+        'Gail Forcewind',
+        'Paige Turner',
+        'Bob Frapples'
+      ]
     } 
   }
 
@@ -42,27 +51,25 @@ export default class AdoptionPage extends React.Component{
   }
  
   createDataSuccess = (data) => {
-    console.log(123)
     this.setState({
       peopleData: data
     })
-    if(this.state.peopleData.length) {
-      setInterval(() => 
-      this.tick()
-     , 5000);
-    }else{
-      clearInterval( setInterval(() => 
-      this.tick()
-     , 5000));
-    }
-    
-}
+    this.startFive() 
+  }
 
+ startFive = ()=>{
+  this.intervalId= setInterval(() => {
+    this.tick()
+  }, 5000);
+ }
 
-
- tick(){    
+ stopFive = ()=>{
+   clearInterval(this.intervalId)
+ }
+ 
+ tick(){
+       
     let randomNumber = Math.floor(Math.random() * 2) + 1
-    console.log(randomNumber)
     if(randomNumber === 1) {
     DataApiService.deletePet('dogs')
      .then( res => {
@@ -105,7 +112,7 @@ export default class AdoptionPage extends React.Component{
         <h1>Cats</h1>
         <Pet pet={cats}/>
         </div>
-        <PeopleList createDataSuccess={this.createDataSuccess}  people={peopleData} dogs={dogs} cats={cats}/>
+        <PeopleList createDataSuccess={this.createDataSuccess}  stopFive={this.stopFive} people={peopleData} dogs={dogs} cats={cats}/>
       </div>
     )
   }
