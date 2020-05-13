@@ -21,12 +21,22 @@ export default class AdoptionPage extends React.Component{
         'Anna Mull',
         'Gail Forcewind',
         'Paige Turner',
+        'Bob Frapples',
+        'Mario Speedwagon',
+        'Petey Cruiser',
+        'Anna Sthesia',
+        'Paul Molive',
+        'Anna Mull',
+        'Gail Forcewind',
+        'Paige Turner',
         'Bob Frapples'
-      ]
+      ],
+      newPerson: '',
+      indexAdopter:0  
     } 
   }
 
-  componentDidMount() {   
+  componentDidMount() {
      DataApiService.getPet()
       .then(res=> this.setState({
             dogs: res.dogs[0],
@@ -46,16 +56,24 @@ export default class AdoptionPage extends React.Component{
       .catch(res=> this.setState({
           error:JSON.stringify(res.error)
       })) 
-
-      
   }
+
  
   createDataSuccess = (data) => {
     this.setState({
       peopleData: data
     })
     this.startFive() 
+    this.startTock()
   }
+
+
+  createFakeAdopter = (data) => {
+    this.setState({
+      peopleData: data
+    })
+  }
+  
 
  startFive = ()=>{
   this.intervalId= setInterval(() => {
@@ -66,37 +84,61 @@ export default class AdoptionPage extends React.Component{
  stopFive = ()=>{
    clearInterval(this.intervalId)
  }
+
+ startTock= ()=>{
+  this.intervalIds= setInterval(() => {
+    this.tock()
+  }, 5000);
+ }
+
+ stopTock = ()=>{
+  clearInterval(this.intervalIds)
+}
+
+tock(){
+  DataApiService.postPeople( 
+    {newPerson:this.state.adopters[this.state.indexAdopter] }   
+  )
+  .then(data => {
+    this.createFakeAdopter(data)
+    })
+    
+  this.setState({
+    indexAdopter: this.state.indexAdopter +1
+  })
+} 
+
+
  
- tick(){
-       
-    let randomNumber = Math.floor(Math.random() * 2) + 1
-    if(randomNumber === 1) {
-    DataApiService.deletePet('dogs')
-     .then( res => {
-        console.log(res)
-          DataApiService.getPet()
-          .then(resp => {
-            this.setState({ dogs: resp.dogs[0] })
-            })
-          
-          .catch(res => this.setState({ error: res.error }))
-          DataApiService.getPeople()
-          .then(res => this.setState({ peopleData: res }))
-          .catch(res => this.setState({ error: res.error }))
-      })   
-    } else {
-      DataApiService.deletePet('cats')
-         .then( res => {
-            console.log(res)
+   tick(){     
+    
+        let randomNumber = Math.floor(Math.random() * 2) + 1
+        if(randomNumber === 1) {
+       DataApiService.deletePet('dogs')
+        .then( res => {
               DataApiService.getPet()
-              .then(resp =>{ 
-                this.setState({ cats: resp.cats[0] })})
+              .then(resp => {
+                this.setState({ dogs: resp.dogs[0] })
+                })
+              
               .catch(res => this.setState({ error: res.error }))
               DataApiService.getPeople()
               .then(res => this.setState({ peopleData: res }))
               .catch(res => this.setState({ error: res.error }))
-          })  
+          })   
+        } else {
+          DataApiService.deletePet('cats')
+            .then( res => {
+                  DataApiService.getPet()
+                  .then(resp =>{ 
+                    this.setState({ cats: resp.cats[0] })})
+                  .catch(res => this.setState({ error: res.error }))
+                  DataApiService.getPeople()
+                  .then(res => this.setState({ peopleData: res}))
+                  .catch(res => this.setState({ error: res.error }))
+              })  
     }
+   
 }
   render(){
     const { error, dogs, cats, peopleData }  = this.state;
@@ -112,36 +154,9 @@ export default class AdoptionPage extends React.Component{
         <h1>Cats</h1>
         <Pet pet={cats}/>
         </div>
-        <PeopleList createDataSuccess={this.createDataSuccess}  stopFive={this.stopFive} people={peopleData} dogs={dogs} cats={cats}/>
+        <PeopleList createDataSuccess={this.createDataSuccess}  stopFive={this.stopFive} stopTock={this.stopTock} people={peopleData} dogs={dogs} cats={cats}/>
       </div>
     )
   }
 };
 
-/* this.timeout = setInterval(() => {
-      let randomNumber = Math.floor(Math.random() * 2) + 1
-      
-      if(randomNumber === 1) {
-          DataApiService.deletePet('dog')
-          .then( res => {
-              DataApiService.getPets()
-              .then(res => this.setState({ dogs: res.dogs[0] }))
-              .catch(res => this.setState({ error: res.error }))
-              DataApiService.getPeople()
-              .then(res => this.setState({ people: res }))
-              .catch(res => this.setState({ error: res.error }))
-          })
-          .catch(res => this.setState({ error: res.error }))
-      } else {
-        DataApiService.deletePet('cat')
-          .then( res => {
-              DataApiService.getPets()
-              .then(res => this.setState({ cats: res.cats[0] }))
-              .catch(res => this.setState({ error: res.error }))
-              DataApiService.getPeople()
-              .then(res => this.setState({ people: res }))
-              .catch(res => this.setState({ error: res.error }))
-          })
-          .catch(res => this.setState({ error: res.error }))
-      }
-    }, 5000);*/
